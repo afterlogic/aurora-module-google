@@ -20,4 +20,14 @@
 
 class GoogleModule extends AApiModule
 {
+	protected $aSettingsMap = array(
+		'EnableModule' => array(false, 'bool'),
+		'Id' => array('', 'string'),
+		'Key' => array('', 'string'),
+		'Secret' => array('', 'string')
+	);
+	
+	public function init() 
+	{
+	}
 }
