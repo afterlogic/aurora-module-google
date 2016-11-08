@@ -20,6 +20,8 @@
 
 class GoogleModule extends AApiModule
 {
+	protected $sService = 'google';
+	
 	protected $aSettingsMap = array(
 		'EnableModule' => array(false, 'bool'),
 		'Id' => array('', 'string'),
@@ -29,5 +31,149 @@ class GoogleModule extends AApiModule
 	
 	public function init() 
 	{
+		$this->subscribeEvent('GetServices', array($this, 'onGetServices'));
+		$this->subscribeEvent('GetServicesSettings', array($this, 'onGetServicesSettings'));
+		$this->subscribeEvent('UpdateServicesSettings', array($this, 'onUpdateServicesSettings'));
 	}
+	
+	/**
+	 * Adds service name to array passed by reference.
+	 * 
+	 * @ignore
+	 * @param array $aServices Array with services names passed by reference.
+	 */
+	public function onGetServices($aArgs, &$aServices)
+	{
+		if ($this->getConfig('EnableModule', false))
+		{
+//			if ($this->issetScope('auth'))
+//			{
+				$aServices[] = $this->sService;
+//			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Adds service settings to array passed by reference.
+	 * 
+	 * @ignore
+	 * @param array $aServices Array with services settings passed by reference.
+	 */
+	public function onGetServicesSettings(&$aServices)
+	{
+		$aSettings = $this->GetSettings();
+		if (!empty($aSettings))
+		{
+			$aServices[] = $aSettings;
+		}
+	}
+	
+	/**
+	 * Updates service settings.
+	 * 
+	 * @ignore
+	 * @param array $aServices Array with new values for service settings.
+	 * 
+	 * @throws \System\Exceptions\AuroraApiException
+	 */
+	public function onUpdateServicesSettings($aServices)
+	{
+		$aSettings = $aServices[$this->sService];
+		
+		if (is_array($aSettings))
+		{
+			$this->UpdateSettings($aSettings['EnableModule'], $aSettings['Id'], $aSettings['Secret']);
+		}
+	}
+	/***** private functions *****/
+	
+	/**
+	 * Updates service settings.
+	 * 
+	 * @param boolean $EnableModule **true** if module should be enabled.
+	 * @param string $Id Service app identificator.
+	 * @param string $Secret Service app secret.
+	 * @param string $Key Service app key.
+	 * 
+	 * @throws \System\Exceptions\AuroraApiException
+	 */
+	public function UpdateSettings($EnableModule, $Id, $Secret, $Key)
+	{
+		\CApi::checkUserRoleIsAtLeast(\EUserRole::TenantAdmin);
+		
+		try
+		{
+			$this->setConfig('EnableModule', $EnableModule);
+			$this->setConfig('Id', $Id);
+			$this->setConfig('Secret', $Secret);
+			$this->setConfig('Key', $Key);
+			$this->saveModuleConfig();
+		}
+		catch (Exception $ex)
+		{
+			throw new \System\Exceptions\AuroraApiException(\System\Notifications::CanNotSaveSettings);
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Deletes DropBox account.
+	 * 
+	 * @return boolean
+	 */
+	public function DeleteAccount()
+	{
+		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		
+		$bResult = false;
+		$oOAuthIntegratorWebclientDecorator = \CApi::GetModuleDecorator('OAuthIntegratorWebclient');
+		if ($oOAuthIntegratorWebclientDecorator)
+		{
+			$bResult = $oOAuthIntegratorWebclientDecorator->DeleteAccount($this->sService);
+		}
+		
+		return $bResult;
+	}
+	/***** public functions might be called with web API *****/
+	
+	
+	/***** public functions might be called with web API *****/
+	/**
+	 * Obtaines list of module settings for authenticated user.
+	 * 
+	 * @return array
+	 */
+	public function GetSettings()
+	{
+		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		
+		$oUser = \CApi::getAuthenticatedUser();
+		if (!empty($oUser) && $oUser->Role === \EUserRole::SuperAdmin)
+		{
+			return array(
+				'Name' => $this->sService,
+				'DisplayName' => $this->GetName(),
+				'EnableModule' => $this->getConfig('EnableModule', false),
+				'Id' => $this->getConfig('Id', ''),
+				'Secret' => $this->getConfig('Secret', ''),
+				'Key' => $this->getConfig('Key', '')
+			);
+		}
+		
+		if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
+		{
+			$oAccount = \CApi::GetModuleDecorator('OAuthIntegratorWebclient')->GetAccount($this->sService);
+
+			return array(
+				'EnableModule' => $this->getConfig('EnableModule', false),
+				'Connected' => $oAccount ? true : false
+			);
+		}
+		
+		return array();
+	}
+		
 }
