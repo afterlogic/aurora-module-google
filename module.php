@@ -31,28 +31,8 @@ class GoogleModule extends AApiModule
 	
 	public function init() 
 	{
-		$this->subscribeEvent('GetServices', array($this, 'onGetServices'));
 		$this->subscribeEvent('GetServicesSettings', array($this, 'onGetServicesSettings'));
 		$this->subscribeEvent('UpdateServicesSettings', array($this, 'onUpdateServicesSettings'));
-	}
-	
-	/**
-	 * Adds service name to array passed by reference.
-	 * 
-	 * @ignore
-	 * @param array $aServices Array with services names passed by reference.
-	 */
-	public function onGetServices($aArgs, &$aServices)
-	{
-		if ($this->getConfig('EnableModule', false))
-		{
-//			if ($this->issetScope('auth'))
-//			{
-				$aServices[] = $this->sService;
-//			}
-		}
-		
-		return true;
 	}
 	
 	/**
@@ -148,12 +128,13 @@ class GoogleModule extends AApiModule
 	 */
 	public function GetSettings()
 	{
+		$aResult = array();
 		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
 		
 		$oUser = \CApi::getAuthenticatedUser();
 		if (!empty($oUser) && $oUser->Role === \EUserRole::SuperAdmin)
 		{
-			return array(
+			$aResult = array(
 				'Name' => $this->sService,
 				'DisplayName' => $this->GetName(),
 				'EnableModule' => $this->getConfig('EnableModule', false),
@@ -161,19 +142,24 @@ class GoogleModule extends AApiModule
 				'Secret' => $this->getConfig('Secret', ''),
 				'Key' => $this->getConfig('Key', '')
 			);
+			
 		}
 		
 		if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
 		{
 			$oAccount = \CApi::GetModuleDecorator('OAuthIntegratorWebclient')->GetAccount($this->sService);
 
-			return array(
+			$aResult = array(
 				'EnableModule' => $this->getConfig('EnableModule', false),
 				'Connected' => $oAccount ? true : false
 			);
 		}
+		$aArgs = array(
+			'OAuthAccount' => $oAccount
+		);
+		$this->broadcastEvent('GetSettings', $aArgs, $aResult);
 		
-		return array();
+		return $aResult;
 	}
 		
 }
