@@ -1,2 +1,2 @@
-# aurora-module-webclient-google-auth
-This module adds ability to login using Google account
+# aurora-module-google
+Adds ability to work with Google
