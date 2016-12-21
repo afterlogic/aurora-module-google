@@ -25,8 +25,8 @@ class GoogleModule extends AApiModule
 	protected $aSettingsMap = array(
 		'EnableModule' => array(false, 'bool'),
 		'Id' => array('', 'string'),
-		'Key' => array('', 'string'),
-		'Secret' => array('', 'string')
+		'Secret' => array('', 'string'),
+		'Key' => array('', 'string')
 	);
 	
 	public function init() 
@@ -34,7 +34,7 @@ class GoogleModule extends AApiModule
 		$this->subscribeEvent('GetServicesSettings', array($this, 'onGetServicesSettings'));
 		$this->subscribeEvent('UpdateServicesSettings', array($this, 'onUpdateServicesSettings'));
 	}
-	
+
 	/**
 	 * Adds service settings to array passed by reference.
 	 * 
@@ -142,7 +142,6 @@ class GoogleModule extends AApiModule
 				'Secret' => $this->getConfig('Secret', ''),
 				'Key' => $this->getConfig('Key', '')
 			);
-			
 		}
 		
 		if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
