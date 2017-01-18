@@ -22,13 +22,6 @@ class GoogleModule extends AApiModule
 {
 	protected $sService = 'google';
 	
-	protected $aSettingsMap = array(
-		'EnableModule' => array(false, 'bool'),
-		'Id' => array('', 'string'),
-		'Secret' => array('', 'string'),
-		'Key' => array('', 'string')
-	);
-	
 	public function init() 
 	{
 		$this->subscribeEvent('GetServicesSettings', array($this, 'onGetServicesSettings'));
