@@ -18,7 +18,9 @@
  * @package Modules
  */
 
-class GoogleModule extends AApiModule
+namespace Aurora\Modules;
+
+class GoogleModule extends \AApiModule
 {
 	protected $sService = 'google';
 	
@@ -55,7 +57,7 @@ class GoogleModule extends AApiModule
 	{
 		$aSettings = $aServices[$this->sService];
 		
-		if (is_array($aSettings))
+		if (\is_array($aSettings))
 		{
 			$this->UpdateSettings($aSettings['EnableModule'], $aSettings['Id'], $aSettings['Secret']);
 		}
@@ -84,7 +86,7 @@ class GoogleModule extends AApiModule
 			$this->setConfig('Key', $Key);
 			$this->saveModuleConfig();
 		}
-		catch (Exception $ex)
+		catch (\Exception $ex)
 		{
 			throw new \System\Exceptions\AuroraApiException(\System\Notifications::CanNotSaveSettings);
 		}
