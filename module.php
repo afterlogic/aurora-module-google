@@ -20,7 +20,7 @@
 
 namespace Aurora\Modules;
 
-class GoogleModule extends \AApiModule
+class GoogleModule extends \Aurora\System\AbstractModule
 {
 	protected $sService = 'google';
 	
@@ -76,7 +76,7 @@ class GoogleModule extends \AApiModule
 	 */
 	public function UpdateSettings($EnableModule, $Id, $Secret, $Key)
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::TenantAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::TenantAdmin);
 		
 		try
 		{
@@ -101,10 +101,10 @@ class GoogleModule extends \AApiModule
 	 */
 	public function DeleteAccount()
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 		
 		$bResult = false;
-		$oOAuthIntegratorWebclientDecorator = \CApi::GetModuleDecorator('OAuthIntegratorWebclient');
+		$oOAuthIntegratorWebclientDecorator = \Aurora\System\Api::GetModuleDecorator('OAuthIntegratorWebclient');
 		if ($oOAuthIntegratorWebclientDecorator)
 		{
 			$bResult = $oOAuthIntegratorWebclientDecorator->DeleteAccount($this->sService);
@@ -124,9 +124,9 @@ class GoogleModule extends \AApiModule
 	public function GetSettings()
 	{
 		$aResult = array();
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
 		
-		$oUser = \CApi::getAuthenticatedUser();
+		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		if (!empty($oUser) && $oUser->Role === \EUserRole::SuperAdmin)
 		{
 			$aResult = array(
@@ -141,7 +141,7 @@ class GoogleModule extends \AApiModule
 		
 		if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
 		{
-			$oAccount = \CApi::GetModuleDecorator('OAuthIntegratorWebclient')->GetAccount($this->sService);
+			$oAccount = \Aurora\System\Api::GetModuleDecorator('OAuthIntegratorWebclient')->GetAccount($this->sService);
 
 			$aResult = array(
 				'EnableModule' => $this->getConfig('EnableModule', false),
