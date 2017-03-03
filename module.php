@@ -20,7 +20,7 @@
 
 namespace Aurora\Modules;
 
-class GoogleModule extends \Aurora\System\AbstractModule
+class GoogleModule extends \Aurora\System\Module\AbstractModule
 {
 	protected $sService = 'google';
 	
@@ -51,7 +51,7 @@ class GoogleModule extends \Aurora\System\AbstractModule
 	 * @ignore
 	 * @param array $aServices Array with new values for service settings.
 	 * 
-	 * @throws \System\Exceptions\ApiException
+	 * @throws \Aurora\System\Exceptions\ApiException
 	 */
 	public function onUpdateServicesSettings($aServices)
 	{
@@ -72,7 +72,7 @@ class GoogleModule extends \Aurora\System\AbstractModule
 	 * @param string $Secret Service app secret.
 	 * @param string $Key Service app key.
 	 * 
-	 * @throws \System\Exceptions\ApiException
+	 * @throws \Aurora\System\Exceptions\ApiException
 	 */
 	public function UpdateSettings($EnableModule, $Id, $Secret, $Key)
 	{
@@ -88,7 +88,7 @@ class GoogleModule extends \Aurora\System\AbstractModule
 		}
 		catch (\Exception $ex)
 		{
-			throw new \System\Exceptions\ApiException(\System\Notifications::CanNotSaveSettings);
+			throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::CanNotSaveSettings);
 		}
 		
 		return true;
