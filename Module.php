@@ -25,12 +25,22 @@ class Module extends \Aurora\System\Module\AbstractModule
 {
 	protected $sService = 'google';
 	
-	public function init() 
+	protected $aRequireModules = array(
+		'OAuthIntegratorWebclient'
+	);
+	
+	/***** private functions *****/
+	/**
+	 * Initializes Google Module.
+	 * 
+	 * @ignore
+	 */
+	public function init()
 	{
 		$this->subscribeEvent('GetServicesSettings', array($this, 'onGetServicesSettings'));
 		$this->subscribeEvent('UpdateServicesSettings', array($this, 'onUpdateServicesSettings'));
 	}
-
+	
 	/**
 	 * Adds service settings to array passed by reference.
 	 * 
@@ -64,6 +74,51 @@ class Module extends \Aurora\System\Module\AbstractModule
 		}
 	}
 	/***** private functions *****/
+	
+	/***** public functions might be called with web API *****/
+	/**
+	 * Obtains list of module settings for authenticated user.
+	 * 
+	 * @return array
+	 */
+	public function GetSettings()
+	{
+		$aResult = array();
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		
+		$oUser = \Aurora\System\Api::getAuthenticatedUser();
+		if (!empty($oUser) && $oUser->Role === \EUserRole::SuperAdmin)
+		{
+			$aResult = array(
+				'Name' => $this->sService,
+				'DisplayName' => $this->GetName(),
+				'EnableModule' => $this->getConfig('EnableModule', false),
+				'Id' => $this->getConfig('Id', ''),
+				'Secret' => $this->getConfig('Secret', ''),
+				'Key' => $this->getConfig('Key', '')
+			);
+		}
+		
+		if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
+		{
+			$oAccount = null;
+			$oOAuthIntegratorWebclientDecorator = \Aurora\System\Api::GetModuleDecorator('OAuthIntegratorWebclient');
+			if ($oOAuthIntegratorWebclientDecorator)
+			{
+				$oAccount = $oOAuthIntegratorWebclientDecorator->GetAccount($this->sService);
+			}
+			$aResult = array(
+				'EnableModule' => $this->getConfig('EnableModule', false),
+				'Connected' => $oAccount ? true : false
+			);
+			$aArgs = array(
+				'OAuthAccount' => $oAccount
+			);
+		}
+		$this->broadcastEvent('GetSettings', $aArgs, $aResult);
+		
+		return $aResult;
+	}
 	
 	/**
 	 * Updates service settings.
@@ -114,47 +169,4 @@ class Module extends \Aurora\System\Module\AbstractModule
 		return $bResult;
 	}
 	/***** public functions might be called with web API *****/
-	
-	
-	/***** public functions might be called with web API *****/
-	/**
-	 * Obtains list of module settings for authenticated user.
-	 * 
-	 * @return array
-	 */
-	public function GetSettings()
-	{
-		$aResult = array();
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
-		
-		$oUser = \Aurora\System\Api::getAuthenticatedUser();
-		if (!empty($oUser) && $oUser->Role === \EUserRole::SuperAdmin)
-		{
-			$aResult = array(
-				'Name' => $this->sService,
-				'DisplayName' => $this->GetName(),
-				'EnableModule' => $this->getConfig('EnableModule', false),
-				'Id' => $this->getConfig('Id', ''),
-				'Secret' => $this->getConfig('Secret', ''),
-				'Key' => $this->getConfig('Key', '')
-			);
-		}
-		
-		if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
-		{
-			$oAccount = \Aurora\System\Api::GetModuleDecorator('OAuthIntegratorWebclient')->GetAccount($this->sService);
-
-			$aResult = array(
-				'EnableModule' => $this->getConfig('EnableModule', false),
-				'Connected' => $oAccount ? true : false
-			);
-			$aArgs = array(
-				'OAuthAccount' => $oAccount
-			);
-		}
-		$this->broadcastEvent('GetSettings', $aArgs, $aResult);
-		
-		return $aResult;
-	}
-		
 }
