@@ -4,9 +4,11 @@
 	"require": {
 		"php": ">=5.4.0",
 		"afterlogic/aurora-framework": "~0.4",
-		"google/apiclient":"1.1.7"
+		"google/apiclient": "1.1.7"
 	},
 	"extra": {
-		"installer-name": "Google"
+		"installer-name": "Google",
+		"include-in-mobile": false,
+		"include-in-desktop": true
 	}
 }
