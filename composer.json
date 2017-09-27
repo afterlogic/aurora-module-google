@@ -7,8 +7,6 @@
 		"google/apiclient": "1.1.7"
 	},
 	"extra": {
-		"installer-name": "Google",
-		"include-in-mobile": false,
-		"include-in-desktop": true
+		"installer-name": "Google"
 	}
 }
