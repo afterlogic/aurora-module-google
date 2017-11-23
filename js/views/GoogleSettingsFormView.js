@@ -22,7 +22,7 @@ var
 /**
 * @constructor
 */
-function CUserSettingsView()
+function CGoogleSettingsFormView()
 {
 	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
 	
@@ -46,15 +46,15 @@ function CUserSettingsView()
 	}, this);
 }
 
-_.extendOwn(CUserSettingsView.prototype, CAbstractSettingsFormView.prototype);
+_.extendOwn(CGoogleSettingsFormView.prototype, CAbstractSettingsFormView.prototype);
 
-CUserSettingsView.prototype.ViewTemplate = '%ModuleName%_UserSettingsView';
+CGoogleSettingsFormView.prototype.ViewTemplate = '%ModuleName%_GoogleSettingsFormView';
 
 /**
  * Returns current values of changeable parameters. These values are used to compare with their previous version.
  * @returns {Array}
  */
-CUserSettingsView.prototype.getCurrentValues = function()
+CGoogleSettingsFormView.prototype.getCurrentValues = function()
 {
 	var aScopesValues = _.map(this.scopes(), function (oScope) {
 		return oScope.Name + oScope.Value();
@@ -68,7 +68,7 @@ CUserSettingsView.prototype.getCurrentValues = function()
 /**
  * Reverts values of changeable parameters to default ones.
  */
-CUserSettingsView.prototype.revertGlobalValues = function()
+CGoogleSettingsFormView.prototype.revertGlobalValues = function()
 {
 	this.connected(Settings.Connected);
 	this.scopes(Settings.getScopesCopy());
@@ -77,7 +77,7 @@ CUserSettingsView.prototype.revertGlobalValues = function()
 /**
  * Checks if connect is allowed and tries to connect in that case.
  */
-CUserSettingsView.prototype.checkAndConnect = function ()
+CGoogleSettingsFormView.prototype.checkAndConnect = function ()
 {
 	var
 		oParams = {
@@ -114,7 +114,7 @@ CUserSettingsView.prototype.checkAndConnect = function ()
  * Tries to connect user to google account.
  * @param {array} aScopes
  */
-CUserSettingsView.prototype.connect = function (aScopes)
+CGoogleSettingsFormView.prototype.connect = function (aScopes)
 {
 	$.removeCookie('oauth-scopes');
 	$.cookie('oauth-scopes', aScopes.join('|'));
@@ -144,7 +144,7 @@ CUserSettingsView.prototype.connect = function (aScopes)
 /**
  * Checks if disconnect is allowed and disconnects in that case.
  */
-CUserSettingsView.prototype.checkAndDisconnect = function ()
+CGoogleSettingsFormView.prototype.checkAndDisconnect = function ()
 {
 	var
 		oParams = {
@@ -168,7 +168,7 @@ CUserSettingsView.prototype.checkAndDisconnect = function ()
 /**
  * Disconnects user from google account.
  */
-CUserSettingsView.prototype.disconnect = function ()
+CGoogleSettingsFormView.prototype.disconnect = function ()
 {
 	Ajax.send(Settings.ServerModuleName, 'DeleteAccount', null, function (oResponse) {
 		if (oResponse.Result)
@@ -188,4 +188,4 @@ CUserSettingsView.prototype.disconnect = function ()
 	}, this);
 };
 
-module.exports = new CUserSettingsView();
+module.exports = new CGoogleSettingsFormView();
