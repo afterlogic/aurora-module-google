@@ -121,7 +121,7 @@ CGoogleSettingsFormView.prototype.connect = function (aScopes)
 	$.cookie('oauth-redirect', 'connect');
 	this.bRunCallback = false;
 	var
-		oWin = WindowOpener.open(UrlUtils.getAppPath() + '?oauth=google', 'Google'),
+		oWin = WindowOpener.open(UrlUtils.getAppPath() + '?oauth=google-connect', 'Google'),
 		iIntervalId = setInterval(_.bind(function() {
 			if (oWin.closed)
 			{
