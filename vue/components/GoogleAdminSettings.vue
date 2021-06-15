@@ -16,24 +16,24 @@
             </q-item>
           </div>
           <div class="row q-mb-md q-ml-md">
-            <div class="col-1 q-my-sm q-ml-sm" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_ID'"></div>
+            <div class="col-1 q-my-sm q-ml-sm required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_ID'"></div>
             <div class="col-5 q-ml-xl">
               <q-input outlined dense class="bg-white" v-model="appId"/>
             </div>
           </div>
           <div class="row q-mb-md q-ml-md">
-            <div class="col-1 q-my-sm q-ml-sm" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_SECRET'"></div>
+            <div class="col-1 q-my-sm q-ml-sm required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_SECRET'"></div>
             <div class="col-5 q-ml-xl">
               <q-input outlined dense class="bg-white" v-model="appSecret"/>
             </div>
           </div>
           <div class="row q-mb-md q-ml-md">
-            <div class="col-1 q-my-sm q-ml-sm" v-t="'GOOGLE.LABEL_API_KEY'"></div>
+            <div class="col-1 q-my-sm q-ml-sm required-field" v-t="'GOOGLE.LABEL_API_KEY'"></div>
             <div class="col-5 q-ml-xl">
               <q-input outlined dense class="bg-white" v-model="apiKey"/>
             </div>
           </div>
-          <div class="row q-mb-md q-ml-md">
+          <div class="row q-ml-md">
             <q-item-label caption>
               <span class="q-ml-sm">{{ $t('GOOGLE.INFO_SETTINGS') }}</span>
             </q-item-label>
