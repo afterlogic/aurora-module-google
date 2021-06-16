@@ -16,19 +16,19 @@
             </q-item>
           </div>
           <div class="row q-mb-md q-ml-md">
-            <div class="col-1 q-my-sm q-ml-sm required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_ID'"></div>
+            <div class="col-1 q-my-sm q-ml-md required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_ID'"></div>
             <div class="col-5 q-ml-xl">
               <q-input outlined dense class="bg-white" v-model="appId"/>
             </div>
           </div>
           <div class="row q-mb-md q-ml-md">
-            <div class="col-1 q-my-sm q-ml-sm required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_SECRET'"></div>
+            <div class="col-1 q-my-sm q-ml-md required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_SECRET'"></div>
             <div class="col-5 q-ml-xl">
               <q-input outlined dense class="bg-white" v-model="appSecret"/>
             </div>
           </div>
           <div class="row q-mb-md q-ml-md">
-            <div class="col-1 q-my-sm q-ml-sm required-field" v-t="'GOOGLE.LABEL_API_KEY'"></div>
+            <div class="col-1 q-my-sm q-ml-md required-field" v-t="'GOOGLE.LABEL_API_KEY'"></div>
             <div class="col-5 q-ml-xl">
               <q-input outlined dense class="bg-white" v-model="apiKey"/>
             </div>
@@ -70,14 +70,14 @@
 
 <script>
 import UnsavedChangesDialog from 'src/components/UnsavedChangesDialog'
-import webApi from "../../../AdminPanelWebclient/vue/src/utils/web-api";
-import settings from "../../../Google/vue/settings";
-import notification from "../../../AdminPanelWebclient/vue/src/utils/notification";
-import errors from "../../../AdminPanelWebclient/vue/src/utils/errors";
-import _ from "lodash";
+import webApi from 'src/utils/web-api'
+import settings from '../../../Google/vue/settings';
+import notification from 'src/utils/notification'
+import errors from 'src/utils/errors'
+import _ from 'lodash';
 
 export default {
-  name: "GoogleAdminSettings",
+  name: 'GoogleAdminSettings',
   components: {
     UnsavedChangesDialog
   },
@@ -87,7 +87,6 @@ export default {
       auth: false,
       storage: false,
       saving: false,
-      
       appId: '',
       apiKey: '',
       appSecret: '',
@@ -107,9 +106,7 @@ export default {
   methods: {
     hasChanges() {
       const data = settings.getGoogleSettings()
-      
       let hasChangesScopes = false
-      
       this.scopes.forEach((scope) => {
         if (!hasChangesScopes) {
           if (scope.Name === 'auth') {
@@ -119,7 +116,6 @@ export default {
           }
         }
       })
-      
       return this.enableGoogle !== data.EnableModule ||
           this.appId !== data.Id ||
           this.apiKey !== data.Key || hasChangesScopes ||
@@ -132,7 +128,6 @@ export default {
       this.apiKey = data.Key
       this.scopes = data.Scopes
       this.appSecret = data.Secret
-      
       this.scopes.forEach((scope) => {
         if (scope.Name === 'auth') {
           this.auth = scope.Value
@@ -140,7 +135,6 @@ export default {
           this.storage = scope.Value
         }
       })
-      
     },
     saveGoogleSettings() {
       if (this.appId && this.apiKey && this.appSecret) {
@@ -159,7 +153,6 @@ export default {
             scope.Value = this.storage
           }
         })
-        
         const parameters = {
           EnableModule: this.enableGoogle,
           Id: this.appId,
@@ -174,13 +167,7 @@ export default {
         }).then(result => {
           this.saving = false
           if (result === true) {
-            settings.saveGoogleSettings({
-              EnableModule: this.enableGoogle,
-              Id: this.appId,
-              Key: this.apiKey,
-              Scopes: this.scopes,
-              Secret: this.appSecret
-            })
+            settings.saveGoogleSettings(parameters)
             this.populate()
             notification.showReport(this.$t('COREWEBCLIENT.REPORT_SETTINGS_UPDATE_SUCCESS'))
           } else {
