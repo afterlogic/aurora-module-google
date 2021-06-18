@@ -1,14 +1,18 @@
 import settings from '../../Google/vue/settings'
 
 export default {
-  name: 'GoogleWebclient',
+  moduleName: 'Google',
+
+  requiredModules: [],
+
   init (appData) {
     settings.init(appData)
   },
+
   getAdminSystemTabs () {
     return [
       {
-        name: 'google',
+        tabName: 'google',
         title: 'GOOGLE.LABEL_SETTINGS_TAB',
         component () {
           return import('src/../../../Google/vue/components/GoogleAdminSettings')
