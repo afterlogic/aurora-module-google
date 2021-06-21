@@ -71,10 +71,10 @@
 <script>
 import UnsavedChangesDialog from 'src/components/UnsavedChangesDialog'
 import webApi from 'src/utils/web-api'
-import settings from '../../../Google/vue/settings';
+import settings from '../../../Google/vue/settings'
 import notification from 'src/utils/notification'
 import errors from 'src/utils/errors'
-import _ from 'lodash';
+import _ from 'lodash'
 
 export default {
   name: 'GoogleAdminSettings',
