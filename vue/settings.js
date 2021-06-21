@@ -6,13 +6,13 @@ class GoogleSettings {
   constructor (appData) {
     const googleWebclientData = typesUtils.pObject(appData.Google)
     if (!_.isEmpty(googleWebclientData)) {
-      this.displayName = googleWebclientData.DisplayName
-      this.enableModule = googleWebclientData.EnableModule
-      this.id = googleWebclientData.Id
-      this.key = googleWebclientData.Key
-      this.name = googleWebclientData.Name
-      this.scopes = googleWebclientData.Scopes
-      this.secret = googleWebclientData.Secret
+      this.displayName = typesUtils.pString(googleWebclientData.DisplayName)
+      this.enableModule = typesUtils.pBool(googleWebclientData.EnableModule)
+      this.id = typesUtils.pInt(googleWebclientData.Id)
+      this.key = typesUtils.pString(googleWebclientData.Key)
+      this.name = typesUtils.pString(googleWebclientData.Name)
+      this.scopes = typesUtils.pArray(googleWebclientData.Scopes)
+      this.secret = typesUtils.pString(googleWebclientData.Secret)
     }
   }
 
