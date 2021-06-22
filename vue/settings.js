@@ -8,7 +8,7 @@ class GoogleSettings {
     if (!_.isEmpty(googleWebclientData)) {
       this.displayName = typesUtils.pString(googleWebclientData.DisplayName)
       this.enableModule = typesUtils.pBool(googleWebclientData.EnableModule)
-      this.id = typesUtils.pInt(googleWebclientData.Id)
+      this.id = typesUtils.pString(googleWebclientData.Id)
       this.key = typesUtils.pString(googleWebclientData.Key)
       this.name = typesUtils.pString(googleWebclientData.Name)
       this.scopes = typesUtils.pArray(googleWebclientData.Scopes)

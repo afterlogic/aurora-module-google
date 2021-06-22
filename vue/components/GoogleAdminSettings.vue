@@ -137,7 +137,7 @@ export default {
       })
     },
     saveGoogleSettings() {
-      if (this.appId && this.apiKey && this.appSecret) {
+      if ((this.appId && this.apiKey && this.appSecret) || !this.enableGoogle) {
         this.save()
       } else {
         notification.showError(this.$t('MAILWEBCLIENT.ERROR_REQUIRED_FIELDS_EMPTY'))
