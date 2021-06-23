@@ -116,18 +116,18 @@ export default {
           }
         }
       })
-      return this.enableGoogle !== data.EnableModule ||
-          this.appId !== data.Id ||
-          this.apiKey !== data.Key || hasChangesScopes ||
-          this.appSecret !== data.Secret
+      return this.enableGoogle !== data.enableModule ||
+          this.appId !== data.id ||
+          this.apiKey !== data.key || hasChangesScopes ||
+          this.appSecret !== data.secret
     },
     populate() {
       const data = settings.getGoogleSettings()
-      this.enableGoogle = data.EnableModule
-      this.appId = data.Id
-      this.apiKey = data.Key
-      this.scopes = data.Scopes
-      this.appSecret = data.Secret
+      this.enableGoogle = data.enableModule
+      this.appId = data.id
+      this.apiKey = data.key
+      this.scopes = data.scopes
+      this.appSecret = data.secret
       this.scopes.forEach((scope) => {
         if (scope.Name === 'auth') {
           this.auth = scope.Value

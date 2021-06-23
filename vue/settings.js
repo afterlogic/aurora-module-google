@@ -36,13 +36,13 @@ export default {
   },
   getGoogleSettings () {
     return {
-      DisplayName: settings.displayName,
-      EnableModule: settings.enableModule,
-      Id: settings.id,
-      Key: settings.key,
-      Name: settings.name,
-      Scopes: settings.scopes,
-      Secret: settings.secret
+      displayName: settings.displayName,
+      enableModule: settings.enableModule,
+      id: settings.id,
+      key: settings.key,
+      name: settings.name,
+      scopes: settings.scopes,
+      secret: settings.secret
     }
   },
 
