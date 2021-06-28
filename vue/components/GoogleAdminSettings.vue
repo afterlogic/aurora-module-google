@@ -6,55 +6,43 @@
       </div>
       <q-card flat bordered class="card-edit-settings">
         <q-card-section>
-          <div class="row">
-            <q-item>
-              <q-item-section>
-                <q-checkbox v-model="enableGoogle" color="teal">
-                  <q-item-label caption v-t="'GOOGLE.ENABLE_MODULE'"></q-item-label>
-                </q-checkbox>
-              </q-item-section>
-            </q-item>
+          <div class="row q-mb-md">
+            <q-checkbox dense v-model="enableGoogle" color="teal">
+              <q-item-label v-t="'GOOGLE.ENABLE_MODULE'"></q-item-label>
+            </q-checkbox>
           </div>
-          <div class="row q-mb-md q-ml-md">
-            <div class="col-1 q-my-sm q-ml-md required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_ID'"></div>
-            <div class="col-5 q-ml-xl">
+          <div class="row q-mb-md">
+            <div class="col-2 q-my-sm q-pl-sm required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_ID'"></div>
+            <div class="col-5">
               <q-input outlined dense class="bg-white" v-model="appId"/>
             </div>
           </div>
-          <div class="row q-mb-md q-ml-md">
-            <div class="col-1 q-my-sm q-ml-md required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_SECRET'"></div>
-            <div class="col-5 q-ml-xl">
+          <div class="row q-mb-md">
+            <div class="col-2 q-my-sm q-pl-sm required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_SECRET'"></div>
+            <div class="col-5">
               <q-input outlined dense class="bg-white" v-model="appSecret"/>
             </div>
           </div>
-          <div class="row q-mb-md q-ml-md">
-            <div class="col-1 q-my-sm q-ml-md required-field" v-t="'GOOGLE.LABEL_API_KEY'"></div>
-            <div class="col-5 q-ml-xl">
+          <div class="row q-mb-md">
+            <div class="col-2 q-my-sm q-pl-sm required-field" v-t="'GOOGLE.LABEL_API_KEY'"></div>
+            <div class="col-5">
               <q-input outlined dense class="bg-white" v-model="apiKey"/>
             </div>
           </div>
-          <div class="row q-ml-md">
+          <div class="row">
             <q-item-label caption>
-              <span class="q-ml-sm" v-t="'GOOGLE.INFO_SETTINGS'" />
+              <span v-t="'GOOGLE.INFO_SETTINGS'" />
             </q-item-label>
           </div>
-          <div class="row">
-            <q-item>
-              <q-item-section>
-                <q-checkbox v-model="auth" color="teal">
-                  <q-item-label caption v-t="'GOOGLEAUTHWEBCLIENT.SCOPE_AUTH'"/>
+          <div class="row q-my-md">
+                <q-checkbox dense v-model="auth" color="teal">
+                  <q-item-label  v-t="'GOOGLEAUTHWEBCLIENT.SCOPE_AUTH'"/>
                 </q-checkbox>
-              </q-item-section>
-            </q-item>
           </div>
           <div class="row">
-            <q-item>
-              <q-item-section>
-                <q-checkbox v-model="storage" color="teal">
-                  <q-item-label caption v-t="'GOOGLEDRIVE.SCOPE_FILESTORAGE'"/>
-                </q-checkbox>
-              </q-item-section>
-            </q-item>
+            <q-checkbox dense v-model="storage" color="teal">
+              <q-item-label v-t="'GOOGLEDRIVE.SCOPE_FILESTORAGE'"/>
+            </q-checkbox>
           </div>
         </q-card-section>
       </q-card>
