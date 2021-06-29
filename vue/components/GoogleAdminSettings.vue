@@ -7,7 +7,7 @@
       <q-card flat bordered class="card-edit-settings">
         <q-card-section>
           <div class="row q-mb-md">
-            <q-checkbox dense v-model="enableGoogle" color="teal">
+            <q-checkbox dense v-model="enableGoogle">
               <q-item-label v-t="'GOOGLE.ENABLE_MODULE'"></q-item-label>
             </q-checkbox>
           </div>
@@ -35,12 +35,12 @@
             </q-item-label>
           </div>
           <div class="row q-my-md">
-                <q-checkbox dense v-model="auth" color="teal">
+                <q-checkbox dense v-model="auth">
                   <q-item-label  v-t="'GOOGLEAUTHWEBCLIENT.SCOPE_AUTH'"/>
                 </q-checkbox>
           </div>
           <div class="row">
-            <q-checkbox dense v-model="storage" color="teal">
+            <q-checkbox dense v-model="storage">
               <q-item-label v-t="'GOOGLEDRIVE.SCOPE_FILESTORAGE'"/>
             </q-checkbox>
           </div>
