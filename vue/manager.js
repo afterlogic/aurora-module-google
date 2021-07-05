@@ -15,7 +15,7 @@ export default {
         tabName: 'google',
         title: 'GOOGLE.LABEL_SETTINGS_TAB',
         component () {
-          return import('src/../../../Google/vue/components/GoogleAdminSettings')
+          return import('./components/GoogleAdminSettings')
         },
       },
     ]
