@@ -105,7 +105,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 			$aResult = array(
 				'EnableModule' => $this->getConfig('EnableModule', false),
 				'Connected' => $oAccount ? true : false,
-				'AccountId' => $oAccount instanceof \Aurora\Modules\OAuthIntegratorWebclient\Classes\Account ? $oAccount->EntityId : null
+				'AccountId' => $oAccount instanceof \Aurora\Modules\OAuthIntegratorWebclient\Models\OauthAccount ? $oAccount->Id : null
 			);
 			$aArgs = array(
 				'OAuthAccount' => $oAccount
