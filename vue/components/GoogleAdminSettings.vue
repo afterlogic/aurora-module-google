@@ -14,19 +14,19 @@
           <div class="row q-mb-md">
             <div class="col-2 q-my-sm q-pl-sm required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_ID'"></div>
             <div class="col-5">
-              <q-input outlined dense class="bg-white" v-model="appId"/>
+              <q-input outlined dense class="bg-white input" v-model="appId"/>
             </div>
           </div>
           <div class="row q-mb-md">
             <div class="col-2 q-my-sm q-pl-sm required-field" v-t="'OAUTHINTEGRATORWEBCLIENT.LABEL_APP_SECRET'"></div>
             <div class="col-5">
-              <q-input outlined dense class="bg-white" v-model="appSecret"/>
+              <q-input outlined dense class="bg-white input" v-model="appSecret"/>
             </div>
           </div>
           <div class="row q-mb-md">
             <div class="col-2 q-my-sm q-pl-sm required-field" v-t="'GOOGLE.LABEL_API_KEY'"></div>
             <div class="col-5">
-              <q-input outlined dense class="bg-white" v-model="apiKey"/>
+              <q-input outlined dense class="bg-white input" v-model="apiKey"/>
             </div>
           </div>
           <div class="row">
@@ -172,5 +172,7 @@ export default {
 </script>
 
 <style scoped>
-
+.input {
+  border-radius: 6px;
+}
 </style>
