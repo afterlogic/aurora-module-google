@@ -34,14 +34,14 @@
               <span v-t="'GOOGLE.INFO_SETTINGS'" />
             </q-item-label>
           </div>
-          <div class="row q-my-md">
-                <q-checkbox dense v-model="auth">
-                  <q-item-label  v-t="'GOOGLEAUTHWEBCLIENT.SCOPE_AUTH'"/>
-                </q-checkbox>
+          <div class="row q-my-md" v-if="scopes.length === 0">
+            <q-item-label caption>
+              <span v-t="'GOOGLE.INFO_NO_SCOPES_AVAILABLE'" />
+            </q-item-label>
           </div>
-          <div class="row">
-            <q-checkbox dense v-model="storage">
-              <q-item-label v-t="'GOOGLEDRIVE.SCOPE_FILESTORAGE'"/>
+          <div class="row q-my-md" v-for="scope in scopes" :key="scope.name">
+            <q-checkbox dense v-model="scope.value">
+              <q-item-label>{{ scope.label }}</q-item-label>
             </q-checkbox>
           </div>
         </q-card-section>
@@ -71,13 +71,13 @@ export default {
   data() {
     return {
       enableGoogle: false,
-      auth: false,
-      storage: false,
-      saving: false,
       appId: '',
-      apiKey: '',
       appSecret: '',
-      scopes: []
+      apiKey: '',
+
+      scopes: [],
+
+      saving: false,
     }
   },
 
@@ -95,19 +95,13 @@ export default {
      */
     hasChanges() {
       const data = settings.getGoogleSettings()
-      let hasChangesScopes = false
-      this.scopes.forEach((scope) => {
-        if (!hasChangesScopes) {
-          if (scope.Name === 'auth') {
-            hasChangesScopes = this.auth !== scope.Value
-          } else if (scope.Name === 'storage') {
-            hasChangesScopes = this.storage !== scope.Value
-          }
-        }
+      const hasChangesInScopes = this.scopes.some(scope => {
+        const scopeData = data.scopes.find(scopeData => scopeData.Name === scope.name)
+        return scopeData.Value !== scope.value
       })
       return this.enableGoogle !== data.enableModule ||
           this.appId !== data.id ||
-          this.apiKey !== data.key || hasChangesScopes ||
+          this.apiKey !== data.key || hasChangesInScopes ||
           this.appSecret !== data.secret
     },
 
@@ -122,19 +116,21 @@ export default {
 
     populate() {
       const data = settings.getGoogleSettings()
+
       this.enableGoogle = data.enableModule
       this.appId = data.id
-      this.apiKey = data.key
-      this.scopes = data.scopes
       this.appSecret = data.secret
-      this.scopes.forEach((scope) => {
-        if (scope.Name === 'auth') {
-          this.auth = scope.Value
-        } else if (scope.Name === 'storage') {
-          this.storage = scope.Value
+      this.apiKey = data.key
+
+      this.scopes = data.scopes.map(scopeData => {
+        return {
+          name: scopeData.Name,
+          value: scopeData.Value,
+          label: scopeData.Description,
         }
       })
     },
+
     saveGoogleSettings() {
       if ((this.appId && this.apiKey && this.appSecret) || !this.enableGoogle) {
         this.save()
@@ -142,22 +138,22 @@ export default {
         notification.showError(this.$t('MAILWEBCLIENT.ERROR_REQUIRED_FIELDS_EMPTY'))
       }
     },
+
     save() {
       if (!this.saving) {
         this.saving = true
-        this.scopes.forEach((scope) => {
-          if (scope.Name === 'auth') {
-            scope.Value = this.auth
-          } else if (scope.Name === 'storage') {
-            scope.Value = this.storage
-          }
-        })
         const parameters = {
           EnableModule: this.enableGoogle,
           Id: this.appId,
           Secret: this.appSecret,
           Key: this.apiKey,
-          Scopes: this.scopes
+          Scopes: this.scopes.map(scope => {
+            return {
+              Name: scope.name,
+              Value: scope.value,
+              Description: scope.label,
+            }
+          })
         }
         webApi.sendRequest({
           moduleName: 'Google',
@@ -177,8 +173,8 @@ export default {
           notification.showError(errors.getTextFromResponse(response, this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED')))
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
