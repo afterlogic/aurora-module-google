@@ -13,10 +13,10 @@ export default {
     return [
       {
         tabName: 'google',
-        title: 'GOOGLE.LABEL_SETTINGS_TAB',
-        component () {
-          return import('./components/GoogleAdminSettings')
-        },
+        tabTitle: 'GOOGLE.LABEL_SETTINGS_TAB',
+        tabRouteChildren: [
+          { path: 'google', component: () => import('./components/GoogleAdminSettings') },
+        ],
       },
     ]
   },
