@@ -1,42 +1,42 @@
 {
-  "Disabled": [
-    false,
-    "bool"
-  ],
-  "Disabled_Description": [
-    "",
-    "string"
-  ],
-  "EnableModule": [
-    false,
-    "bool"
-  ],
-  "EnableModule_Description": [
-    "",
-    "string"
-  ],
-  "Id": [
-    "",
-    "string"
-  ],
-  "Id_Description": [
-    "",
-    "string"
-  ],
-  "Secret": [
-    "",
-    "string"
-  ],
-  "Secret_Description": [
-    "",
-    "string"
-  ],
-  "Key": [
-    "",
-    "string"
-  ],
-  "Key_Description": [
-    "",
-    "string"
-  ]
+	"Disabled": [
+		false,
+		"bool"
+	],
+	"Disabled_Description": [
+		"",
+		"string"
+	],
+	"EnableModule": [
+		false,
+		"bool"
+	],
+	"EnableModule_Description": [
+		"",
+		"string"
+	],
+	"Id": [
+		"",
+		"string"
+	],
+	"Id_Description": [
+		"",
+		"string"
+	],
+	"Secret": [
+		"",
+		"string"
+	],
+	"Secret_Description": [
+		"",
+		"string"
+	],
+	"Key": [
+		"",
+		"string"
+	],
+	"Key_Description": [
+		"",
+		"string"
+	]
 }
