@@ -65,7 +65,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 
 		if (\is_array($aSettings))
 		{
-			$this->UpdateSettings($aSettings['EnableModule'], $aSettings['Id'], $aSettings['Secret']);
+			$this->UpdateSettings($aSettings['EnableModule'], $aSettings['Id'], $aSettings['Secret'], $aSettings['Key']);
 		}
 	}
 	/***** private functions *****/
