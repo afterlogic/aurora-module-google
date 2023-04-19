@@ -14,6 +14,8 @@ namespace Aurora\Modules\Google;
  * @license https://afterlogic.com/products/common-licensing Afterlogic Software License
  * @copyright Copyright (c) 2023, Afterlogic Corp.
  *
+ * @property Settings $oModuleSettings
+ *
  * @package Modules
  */
 class Module extends \Aurora\System\Module\AbstractModule
@@ -102,10 +104,10 @@ class Module extends \Aurora\System\Module\AbstractModule
             $aResult = array(
                 'Name' => $this->sService,
                 'DisplayName' => self::GetName(),
-                'EnableModule' => $this->getConfig('EnableModule', false),
-                'Id' => $this->getConfig('Id', ''),
-                'Secret' => $this->getConfig('Secret', ''),
-                'Key' => $this->getConfig('Key', '')
+                'EnableModule' => $this->oModuleSettings->EnableModule,
+                'Id' => $this->oModuleSettings->Id,
+                'Secret' => $this->oModuleSettings->Secret,
+                'Key' => $this->oModuleSettings->Key
             );
         }
 
@@ -116,7 +118,7 @@ class Module extends \Aurora\System\Module\AbstractModule
                 $oAccount = $oOAuthIntegratorWebclientDecorator->GetAccount($this->sService);
             }
             $aResult = array(
-                'EnableModule' => $this->getConfig('EnableModule', false),
+                'EnableModule' => $this->oModuleSettings->EnableModule,
                 'Connected' => $oAccount ? true : false,
                 'AccountId' => $oAccount instanceof \Aurora\Modules\OAuthIntegratorWebclient\Models\OauthAccount ? $oAccount->Id : null
             );
